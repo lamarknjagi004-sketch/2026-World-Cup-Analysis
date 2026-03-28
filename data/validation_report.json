@@ -1,0 +1,30 @@
+{
+  "total_matches": 137,
+  "model_accuracy": 0.0,
+  "betting_accuracy": 70.07,
+  "accuracy_delta": -70.07,
+  "model_by_type": {},
+  "betting_by_type": {
+    "1": {
+      "count": 37,
+      "accuracy": 72.97297297297297
+    },
+    "2": {
+      "count": 21,
+      "accuracy": 38.095238095238095
+    },
+    "1X": {
+      "count": 49,
+      "accuracy": 73.46938775510205
+    },
+    "12": {
+      "count": 30,
+      "accuracy": 83.33333333333334
+    }
+  },
+  "agreement_rate": 0.0,
+  "both_correct": "0",
+  "both_wrong": "41",
+  "avg_model_confidence": 0.0,
+  "high_confidence_accuracy": 0
+}

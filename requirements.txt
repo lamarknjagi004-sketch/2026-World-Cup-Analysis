@@ -7,4 +7,6 @@ streamlit
 plotly
 pytest
 statsmodels
+requests
+schedule
 

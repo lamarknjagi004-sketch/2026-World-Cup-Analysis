@@ -54,6 +54,10 @@ class FeatureEngineer:
         home_matches = self.df[self.df['home_team'] == team_name]
         away_matches = self.df[self.df['away_team'] == team_name]
         
+        # If team has no matches, return neutral efficiency
+        if len(home_matches) == 0 and len(away_matches) == 0:
+            return 1.0, 1.0
+        
         total_goals = home_matches['home_goals'].sum() + away_matches['away_goals'].sum()
         total_xg = home_matches['home_xg'].sum() + away_matches['away_xg'].sum()
         

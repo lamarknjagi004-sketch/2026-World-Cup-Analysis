@@ -130,8 +130,9 @@ class TournamentSimulator:
             knockout_results[round_name] = current_round_results
             
             if round_name != 'Final':
+                # Create pairs for next round, handling odd number of teams
                 next_round_matches = [(next_round_teams[i], next_round_teams[i+1]) 
-                                     for i in range(0, len(next_round_teams), 2)]
+                                     for i in range(0, len(next_round_teams)-1, 2)]
         
         self.results['knockout'] = knockout_results
         return knockout_results
@@ -149,18 +150,16 @@ class TournamentSimulator:
                 second_place.append(standings[1][0])
         
         # Standard knockout seeding (1st places paired with 2nd places)
-        matches = [
-            (first_place[0], second_place[1]),
-            (first_place[1], second_place[0]),
-            (first_place[2], second_place[3]),
-            (first_place[3], second_place[2]),
-            (first_place[4], second_place[5]),
-            (first_place[5], second_place[4]),
-            (first_place[6], second_place[7]),
-            (first_place[7], second_place[6]),
-        ]
+        # Only create matches if we have enough teams
+        matches = []
+        for i in range(min(len(first_place), len(second_place))):
+            if i < len(first_place) and (i + 1) < len(second_place):
+                matches.append((first_place[i], second_place[i + 1]))
+            if (i + 1) < len(first_place) and i < len(second_place):
+                matches.append((first_place[i + 1], second_place[i]))
         
-        return matches
+        # If we don't have enough teams for full knockout, return what we can
+        return matches if matches else [(first_place[0], second_place[0])] if first_place and second_place else []
     
     def _simulate_knockout_match(self, home_team, away_team, max_attempts=2):
         """

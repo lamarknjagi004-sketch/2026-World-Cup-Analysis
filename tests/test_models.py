@@ -47,7 +47,7 @@ class TestPoissonModel:
     def test_poisson_model_initialization(self, sample_historical_data):
         """Test that Poisson model initializes correctly."""
         model = PoissonMatchModel(sample_historical_data)
-        assert model.is not None
+        assert model is not None
         assert model.global_avg_goals > 0
     
     def test_poisson_prediction_output_structure(self, sample_historical_data):

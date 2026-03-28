@@ -3,6 +3,11 @@ import numpy as np
 import random
 from datetime import datetime, timedelta
 import os
+import logging
+from typing import Optional
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def generate_mock_historical_data(num_matches=1000, output_path='data/historical_matches.csv'):
     """
@@ -65,8 +70,45 @@ def generate_mock_historical_data(num_matches=1000, output_path='data/historical
     
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df.to_csv(output_path, index=False)
-    print(f"✅ Generated {num_matches} historical matches at {output_path}")
+    logger.info(f"✅ Generated {num_matches} historical matches at {output_path}")
+    return df
+
+
+def fetch_live_historical_data(api_key: Optional[str] = None, output_path: str = 'data/historical_matches.csv', use_api: bool = False):
+    """
+    Fetch real historical data from API-Football or generate mock data.
+    
+    Args:
+        api_key: RapidAPI key for API-Football (get from https://rapidapi.com/api-sports/api/api-football)
+        output_path: Path to save historical data
+        use_api: If True, use API-Football; if False, generate mock data
+        
+    Returns:
+        DataFrame with match data
+    """
+    if use_api and api_key:
+        try:
+            from api_football_client import fetch_and_update_historical_data
+            logger.info("📡 Fetching live data from API-Football...")
+            return fetch_and_update_historical_data(api_key, output_path)
+        except ImportError:
+            logger.warning("api_football_client not available. Falling back to mock data.")
+            return generate_mock_historical_data(1000, output_path)
+    else:
+        logger.info("📊 Generating mock historical data...")
+        return generate_mock_historical_data(1000, output_path)
+
 
 if __name__ == "__main__":
-    generate_mock_historical_data(1500)
-    print("Data Ingestion complete.")
+    import sys
+    
+    # Check if API key provided as command line argument
+    api_key = sys.argv[1] if len(sys.argv) > 1 else None
+    use_api = "--live" in sys.argv
+    
+    if use_api and not api_key:
+        logger.warning("⚠️ --live flag provided but no API key. Using mock data instead.")
+        logger.info("Usage: python download_historical_data.py YOUR_API_KEY --live")
+    
+    df = fetch_live_historical_data(api_key, use_api=use_api)
+    logger.info(f"✅ Data Ingestion complete. Loaded {len(df)} matches.")
