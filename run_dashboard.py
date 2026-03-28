@@ -6,6 +6,8 @@ Runs setup checks and launches the Streamlit dashboard
 
 import os
 import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 import subprocess
 from pathlib import Path
 
@@ -20,7 +22,7 @@ def check_environment():
     print("✅ Python version OK")
     
     # Check required packages
-    required_packages = ['streamlit', 'pandas', 'numpy', 'plotly', 'scipy', 'scikit-learn']
+    required_packages = ['streamlit', 'pandas', 'numpy', 'plotly', 'scipy', 'sklearn']
     missing_packages = []
     
     for package in required_packages:

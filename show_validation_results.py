@@ -3,6 +3,9 @@
 
 import json
 import pandas as pd
+import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 
 # Load validation report
 with open('data/validation_report.json', 'r') as f:

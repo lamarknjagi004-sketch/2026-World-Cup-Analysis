@@ -7,6 +7,8 @@ import pandas as pd
 import json
 import os
 import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 from pathlib import Path
 
 # Add to path

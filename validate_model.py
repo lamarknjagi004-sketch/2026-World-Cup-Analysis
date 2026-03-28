@@ -5,6 +5,8 @@ Run complete model validation against betting prediction dataset
 
 import json
 import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 from pathlib import Path
 
 # Add paths

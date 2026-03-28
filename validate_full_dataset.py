@@ -5,6 +5,8 @@ Full Dataset Validation - Loads all 200+ predictions and validates
 
 import json
 import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 from pathlib import Path
 
 # Add paths
