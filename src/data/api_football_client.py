@@ -134,6 +134,29 @@ class APIFootballClient:
             return response['response']
         return []
     
+    def get_fixtures_by_date(self, date_from: str, date_to: str, league: int = None) -> List[Dict]:
+        """
+        Get fixtures within a date range.
+        
+        Args:
+            date_from: Start date in YYYY-MM-DD format
+            date_to: End date in YYYY-MM-DD format
+            league: Optional league ID (1 for World Cup, etc.)
+            
+        Returns:
+            List of fixture dictionaries
+        """
+        params = {
+            "date": f"{date_from}_{date_to}",
+            "status": "FT"  # Finished matches
+        }
+        if league:
+            params["league"] = league
+        response = self._make_request("/fixtures", params)
+        if response and response.get('response'):
+            return response['response']
+        return []
+    
     def get_team_by_name(self, team_name: str) -> Optional[Dict]:
         """Search for team by name to get team ID."""
         params = {"name": team_name}
